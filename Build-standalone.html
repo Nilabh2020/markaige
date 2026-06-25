@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Markaige Build Studio</title>
+  <style>
+    :root {
+      --bg: #000;
+      --panel: linear-gradient(160deg, #161617, #0b0b0c);
+      --panel-strong: linear-gradient(170deg, #15233a, #0a0e16);
+      --text: #f5f5f7;
+      --muted: #a1a1a8;
+      --soft: #86868b;
+      --line: rgba(255,255,255,0.09);
+      --line-strong: rgba(41,151,255,0.4);
+      --chip: rgba(255,255,255,0.04);
+      --chip-border: rgba(255,255,255,0.14);
+      --active: #2997ff;
+      --active-soft: rgba(41,151,255,0.16);
+      --white: #fff;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    button, input { font: inherit; }
+    ::selection { background: rgba(41,151,255,0.32); }
+
+    .shell {
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+      background: #000;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      background: rgba(0,0,0,0.6);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner,
+    .hero-inner,
+    .main-grid {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding-left: 28px;
+      padding-right: 28px;
+    }
+
+    .nav-inner {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+    }
+
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--active);
+      box-shadow: 0 0 12px var(--active);
+      display: inline-block;
+    }
+
+    .brand-name {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: #d2d2d7;
+      font-size: 13px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .nav-cta {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: #000;
+      background: #f5f5f7;
+      padding: 7px 15px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .hero {
+      position: relative;
+      padding: 80px 0 26px;
+      text-align: center;
+    }
+
+    .glow {
+      position: absolute;
+      top: 120px;
+      left: 50%;
+      width: 620px;
+      height: 620px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--active), transparent 62%);
+      filter: blur(80px);
+      opacity: .32;
+      transform: translateX(-50%);
+      animation: glow 11s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes glow {
+      0%,100% { opacity: .32; transform: translateX(-50%) scale(1); }
+      50% { opacity: .5; transform: translateX(-50%) scale(1.08); }
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--active);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 0 0 18px;
+      font-size: clamp(40px, 6vw, 76px);
+      line-height: 1.04;
+      letter-spacing: -0.035em;
+      font-weight: 600;
+      text-wrap: balance;
+    }
+
+    .hero p {
+      margin: 0 auto;
+      max-width: 700px;
+      font-size: clamp(17px, 2.1vw, 21px);
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .main {
+      padding: 24px 0 120px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .card, .card-strong {
+      border-radius: 22px;
+      padding: 30px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .card-strong {
+      background: var(--panel-strong);
+      border-color: var(--line-strong);
+      box-shadow: 0 0 60px rgba(41,151,255,0.12);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .section-index {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--active);
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+    }
+
+    .section-copy {
+      margin: 0 0 20px;
+      font-size: 14px;
+      color: var(--soft);
+      line-height: 1.5;
+    }
+
+    .grid-2, .grid-3 {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+    .choice,
+    .row-btn,
+    .chip {
+      border: 1px solid var(--chip-border);
+      background: rgba(255,255,255,0.03);
+      color: #d2d2d7;
+      border-radius: 16px;
+      padding: 18px;
+      cursor: pointer;
+      transition: .18s ease;
+      text-align: left;
+    }
+
+    .chip {
+      border-radius: 999px;
+      background: var(--chip);
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .row-btn {
+      width: 100%;
+      border-radius: 14px;
+      padding: 15px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .choice:hover,
+    .row-btn:hover,
+    .chip:hover {
+      border-color: rgba(255,255,255,0.28);
+      color: var(--white);
+    }
+
+    .active {
+      background: var(--active-soft);
+      border-color: var(--active);
+      color: var(--white);
+    }
+
+    .choice-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .choice-meta,
+    .row-sub {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .range-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+      gap: 12px;
+    }
+
+    .range-head span:first-child {
+      font-size: 14px;
+      color: #d2d2d7;
+    }
+
+    .range-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--active);
+      text-align: right;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.12);
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #f5f5f7;
+      cursor: pointer;
+      box-shadow: 0 0 0 4px rgba(41,151,255,0.25);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border: 0;
+      border-radius: 50%;
+      background: #f5f5f7;
+      cursor: pointer;
+      box-shadow: 0 0 0 4px rgba(41,151,255,0.25);
+    }
+
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 11px;
+      color: #6e6e73;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 72px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .summary-list {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      margin-bottom: 22px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .summary-row span:first-child {
+      font-size: 13px;
+      color: var(--soft);
+    }
+
+    .summary-row span:last-child {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      text-align: right;
+      max-width: 220px;
+    }
+
+    .meter-head,
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .meter-head span:first-child,
+    .meta-row span:first-child { color: var(--soft); }
+    .meter-head span:last-child { color: var(--active); font-weight: 600; }
+
+    .meter {
+      height: 8px;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.1);
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .meter-fill {
+      height: 100%;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #2997ff, #7fb0e8);
+      transition: width .25s ease;
+    }
+
+    .break {
+      margin-bottom: 22px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #000;
+      background: var(--active);
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+
+    .cta-btn {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      background: #f5f5f7;
+      color: #000;
+      padding: 15px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .small-note {
+      text-align: center;
+      font-size: 12px;
+      color: #6e6e73;
+      margin-top: 12px;
+    }
+
+    .radar-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .radar-title {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .radar-caption {
+      font-size: 12px;
+      color: var(--soft);
+      text-align: right;
+    }
+
+    .radar-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 280px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .meta-grid strong { color: var(--text); }
+
+    .price-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px 14px;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+
+    .price-grid div:nth-child(odd) { color: var(--muted); }
+    .price-grid div:nth-child(even) { color: var(--text); font-weight: 600; text-align: right; }
+
+    .price-total {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .price-total-label {
+      font-size: 13px;
+      color: var(--soft);
+    }
+
+    .price-total-value {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    .footer {
+      padding: 32px 28px 48px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: #6e6e73;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner {
+        height: auto;
+        flex-wrap: wrap;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px 14px;
+      }
+      .grid-2,
+      .grid-3,
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="#top">
+          <span class="brand-dot"></span>
+          <span class="brand-name">Markaige</span>
+        </a>
+        <div class="nav-links">
+          <a href="#configurator">Configurator</a>
+          <a href="#radar">Model Radar</a>
+          <a href="#summary">Live Spec</a>
+        </div>
+        <a class="nav-cta" href="mailto:hello@markaige.com">Talk to us</a>
+      </div>
+    </nav>
+
+    <header id="top" class="hero">
+      <div class="glow"></div>
+      <div class="hero-inner">
+        <div class="eyebrow">Build studio</div>
+        <h1>Configure the exact model you want us to build.</h1>
+        <p>Pick the model family, choose how deep the data work goes, decide how hard we fine-tune it, and compare Personal GLM vs Shared GLM in one place.</p>
+      </div>
+    </header>
+
+    <main id="configurator" class="main">
+      <div class="main-grid">
+        <section class="stack">
+          <div class="card">
+            <div class="section-head"><span class="section-index">01</span><h2 class="section-title">Base model family</h2></div>
+            <p class="section-copy">Start from a frontier open model, or ask us to build everything from the base up.</p>
+            <div style="margin:0 0 18px;padding:16px 18px;border-radius:16px;background:rgba(41,151,255,0.08);border:1px solid rgba(41,151,255,0.22);">
+              <div style="font-size:13px;font-weight:600;color:#f5f5f7;margin-bottom:6px;">Need help picking?</div>
+              <div style="font-size:13px;line-height:1.5;color:#a1a1a8;">Use the guided chat below, tell us what your company does, and we will draft a starter configuration for you. You can still edit everything manually after that.</div>
+            </div>
+            <div class="grid-3" id="model-family"></div>
+            <div style="margin-top:14px;">
+              <button class="row-btn" id="everything-from-base"></button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-head"><span class="section-index">01A</span><h2 class="section-title">Guided chat</h2></div>
+            <p class="section-copy">Describe your company, your customers, and what you want the model to do. Markaige will suggest a starting setup, then you can tweak it however you want.</p>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div id="chat-log" style="display:flex;flex-direction:column;gap:10px;max-height:260px;overflow:auto;padding:4px 2px;"></div>
+              <textarea id="chat-input" placeholder="Example: We are an insurance brokerage with 40 agents. We want a personalized assistant for policy Q&A, claims guidance and internal document search, with strong compliance." style="width:100%;min-height:110px;resize:vertical;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:16px;color:#f5f5f7;outline:none;"></textarea>
+              <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <button id="chat-send" class="chip active" style="border-radius:14px;padding:12px 18px;">Suggest my setup</button>
+                <button id="chat-apply" class="chip" style="border-radius:14px;padding:12px 18px;">Apply recommendation</button>
+                <button id="chat-reset" class="chip" style="border-radius:14px;padding:12px 18px;">Reset suggestion</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-head"><span class="section-index">02</span><h2 class="section-title">Service model</h2></div>
+            <p class="section-copy">Pick whether you want a dedicated version of the selected model or a shared deployment profile.</p>
+            <div class="grid-2" id="service-model"></div>
+          </div>
+
+          <div class="card">
+            <div class="section-head"><span class="section-index">03</span><h2 class="section-title">Parameter class</h2></div>
+            <p class="section-copy">Choose the size envelope you want us to target for inference quality, latency and hosting cost.</p>
+            <div class="range-head"><span>Target size</span><span class="range-value" id="param-label"></span></div>
+            <input id="params" type="range" min="0" max="4" step="1">
+            <div class="range-labels"><span>7B</span><span>14B</span><span>32B</span><span>70B</span><span>MoE / custom</span></div>
+          </div>
+
+          <div class="card">
+            <div class="section-head"><span class="section-index">04</span><h2 class="section-title">Training dataset depth</h2></div>
+            <p class="section-copy">Tell us how much internal data you already have, how much outside data you want us to source, and how deep the data build should go.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;" id="data-source"></div>
+            <div class="grid-2">
+              <div>
+                <div class="range-head"><span>Your internal data</span><span class="range-value" id="internal-label"></span></div>
+                <input id="internal-data" type="range" min="0" max="3" step="1">
+              </div>
+              <div>
+                <div class="range-head"><span>Online / external data</span><span class="range-value" id="external-label"></span></div>
+                <input id="external-data" type="range" min="0" max="3" step="1">
+              </div>
+            </div>
+            <div style="margin-top:18px;">
+              <div class="range-head"><span>Data-build depth</span><span class="range-value" id="dataset-depth-label"></span></div>
+              <input id="dataset-depth" type="range" min="0" max="2" step="1">
+              <div class="range-labels"><span>Clean</span><span>Refine</span><span>Golden dataset</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-head"><span class="section-index">05</span><h2 class="section-title">Fine-tuning depth</h2></div>
+            <p class="section-copy">Choose how deeply the base model should be adapted, from lightweight alignment to deep domain specialization.</p>
+            <div class="range-head"><span>Tuning depth</span><span class="range-value" id="tuning-depth-label"></span></div>
+            <input id="tuning-depth" type="range" min="0" max="4" step="1">
+            <div class="range-labels"><span>Prompt / RAG</span><span>LoRA</span><span>QLoRA+</span><span>Deep tune</span><span>No RAG</span></div>
+            <div style="margin-top:18px;display:flex;flex-direction:column;gap:12px;" id="refinement-layer"></div>
+          </div>
+
+          <div class="card">
+            <div class="section-head"><span class="section-index">06</span><h2 class="section-title">Alignment layer</h2></div>
+            <p class="section-copy">Define how the final model should behave in production: tone, safety, compliance, reasoning style and refusal boundaries.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;" id="alignment-mode"></div>
+            <div class="grid-2">
+              <div>
+                <div class="range-head"><span>Reasoning strictness</span><span class="range-value" id="reasoning-label"></span></div>
+                <input id="reasoning-strictness" type="range" min="0" max="2" step="1">
+                <div class="range-labels"><span>Flexible</span><span>Balanced</span><span>Strict</span></div>
+              </div>
+              <div>
+                <div class="range-head"><span>Compliance guardrails</span><span class="range-value" id="compliance-label"></span></div>
+                <input id="compliance-level" type="range" min="0" max="2" step="1">
+                <div class="range-labels"><span>Light</span><span>Standard</span><span>Heavy</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-head"><span class="section-index">07</span><h2 class="section-title">Delivery stack</h2></div>
+            <p class="section-copy">Pick what Markaige should own beyond the model itself.</p>
+            <div style="display:flex;flex-direction:column;gap:12px;" id="delivery-stack"></div>
+          </div>
+        </section>
+
+        <aside class="sidebar">
+          <div id="summary" class="card-strong">
+            <div class="eyebrow" style="margin-bottom:18px;">Live spec</div>
+            <div class="summary-list" id="summary-list"></div>
+            <div class="meter-head"><span>Build intensity</span><span id="build-word"></span></div>
+            <div class="meter"><div class="meter-fill" id="build-fill"></div></div>
+            <div class="meta-row break"><span>Estimated build time</span><span id="time-label" style="color:var(--text);font-weight:600;"></span></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;">
+              <span style="font-size:13px;color:var(--soft);">Recommended plan</span>
+              <span class="pill" id="tier"></span>
+            </div>
+            <a class="cta-btn" href="mailto:hello@markaige.com?subject=Markaige%20Build%20Request">Request this build →</a>
+            <div class="small-note">We turn this into a proposal, training roadmap and hosting scope.</div>
+          </div>
+
+          <div id="radar" class="card">
+            <div class="radar-top">
+              <div>
+                <div class="eyebrow" style="margin-bottom:6px;">Model radar</div>
+                <div class="radar-title" id="radar-title"></div>
+              </div>
+              <div class="radar-caption">Coding · Thinking · Speed · Cost · Context · Custom fit</div>
+            </div>
+            <div class="radar-box" id="radar-box"></div>
+            <div class="meta-grid">
+              <div>Best use: <strong id="best-use"></strong></div>
+              <div>Serving profile: <strong id="serve-profile"></strong></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="eyebrow" style="margin-bottom:14px;">What this means</div>
+            <p style="font-size:14px;line-height:1.55;color:var(--muted);margin:0 0 12px;" id="summary-paragraph"></p>
+            <p style="font-size:14px;line-height:1.55;color:var(--muted);margin:0;" id="summary-paragraph-2"></p>
+          </div>
+
+          <div class="card">
+            <div class="eyebrow" style="margin-bottom:14px;">Estimated pricing</div>
+            <div style="font-size:14px;line-height:1.55;color:var(--muted);margin-bottom:10px;">This rolls together model build cost, DGX Spark hosting, power, engineering, maintenance, and Markaige margin into a directional monthly estimate.</div>
+            <div class="price-grid" id="price-grid"></div>
+            <div class="price-total">
+              <div>
+                <div class="price-total-label">Estimated monthly price</div>
+              </div>
+              <div class="price-total-value" id="price-total"></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="footer">
+      Standalone Markaige configurator file. Open directly in your browser.
+    </footer>
+  </div>
+
+  <script>
+    const state = {
+      serviceModel: 'personal',
+      model: 'glm52',
+      everythingFromBase: false,
+      params: 2,
+      dataSource: 'both',
+      internalData: 2,
+      externalData: 2,
+      datasetDepth: 2,
+      tuningDepth: 2,
+      refinement: 'domain',
+      alignment: 'domain-safe',
+      reasoningStrictness: 1,
+      complianceLevel: 1,
+      hosting: true,
+      gui: true,
+      maintenance: true,
+      chatDraft: null,
+    };
+
+    const models = {
+      glm52: { name: 'GLM-5.2', meta: '753B MoE · 40B active · 1M ctx', radar: [85, 93, 58, 62, 98, 88], bestUse: 'deep reasoning + personal memory', serve: '4x DGX Spark / premium cluster' },
+      deepseek: { name: 'DeepSeek', meta: 'frontier MoE · reasoning heavy', radar: [82, 91, 67, 68, 86, 82], bestUse: 'high-end reasoning + agents', serve: 'premium clustered deployment' },
+      qwen: { name: 'Qwen', meta: 'strong coding + multilingual', radar: [90, 80, 74, 79, 76, 77], bestUse: 'coding assistants + product copilots', serve: 'balanced dedicated hosting' },
+      gptoss: { name: 'GPT-OSS', meta: 'open dense stack · fast serving', radar: [84, 83, 88, 85, 68, 72], bestUse: 'cost-efficient production APIs', serve: 'shared or single-node hosting' },
+      frombase: { name: 'From base', meta: 'custom architecture + your weights', radar: [78, 84, 42, 24, 72, 100], bestUse: 'IP-sensitive core products', serve: 'foundry / custom infra' },
+    };
+
+    const PARAMS = ['7B class', '14B class', '32B class', '70B class', 'MoE / custom stack'];
+    const DEPTH = ['Clean pass', 'Refined pass', 'Golden dataset'];
+      const TUNE = ['Prompt + RAG only', 'LoRA adaptation', 'QLoRA + behavior tuning', 'Deep domain fine-tune', 'Completely your personal model · no RAG'];
+    const DATA_AMT = ['Little', 'Some', 'A lot', 'Massive'];
+    const ALIGNMENT = {
+      'general-safe': 'General safe assistant',
+      'domain-safe': 'Domain-safe professional',
+      'strict-compliance': 'Strict compliance assistant',
+      'executive-reasoner': 'Executive reasoning mode'
+    };
+    const REASONING = ['Flexible', 'Balanced', 'Strict'];
+    const COMPLIANCE = ['Light', 'Standard', 'Heavy'];
+
+    const els = {
+      serviceModel: document.getElementById('service-model'),
+      modelFamily: document.getElementById('model-family'),
+      everythingFromBase: document.getElementById('everything-from-base'),
+      params: document.getElementById('params'),
+      paramLabel: document.getElementById('param-label'),
+      dataSource: document.getElementById('data-source'),
+      internalData: document.getElementById('internal-data'),
+      internalLabel: document.getElementById('internal-label'),
+      externalData: document.getElementById('external-data'),
+      externalLabel: document.getElementById('external-label'),
+      datasetDepth: document.getElementById('dataset-depth'),
+      datasetDepthLabel: document.getElementById('dataset-depth-label'),
+      tuningDepth: document.getElementById('tuning-depth'),
+      tuningDepthLabel: document.getElementById('tuning-depth-label'),
+      refinementLayer: document.getElementById('refinement-layer'),
+      alignmentMode: document.getElementById('alignment-mode'),
+      reasoningStrictness: document.getElementById('reasoning-strictness'),
+      reasoningLabel: document.getElementById('reasoning-label'),
+      complianceLevel: document.getElementById('compliance-level'),
+      complianceLabel: document.getElementById('compliance-label'),
+      deliveryStack: document.getElementById('delivery-stack'),
+      chatLog: document.getElementById('chat-log'),
+      chatInput: document.getElementById('chat-input'),
+      chatSend: document.getElementById('chat-send'),
+      chatApply: document.getElementById('chat-apply'),
+      chatReset: document.getElementById('chat-reset'),
+      summaryList: document.getElementById('summary-list'),
+      buildWord: document.getElementById('build-word'),
+      buildFill: document.getElementById('build-fill'),
+      timeLabel: document.getElementById('time-label'),
+      tier: document.getElementById('tier'),
+      priceGrid: document.getElementById('price-grid'),
+      priceTotal: document.getElementById('price-total'),
+      radarTitle: document.getElementById('radar-title'),
+      radarBox: document.getElementById('radar-box'),
+      bestUse: document.getElementById('best-use'),
+      serveProfile: document.getElementById('serve-profile'),
+      summaryParagraph: document.getElementById('summary-paragraph'),
+      summaryParagraph2: document.getElementById('summary-paragraph-2'),
+    };
+
+    function activeModelTitle() {
+      const key = state.everythingFromBase ? 'frombase' : state.model;
+      const name = models[key].name;
+      return name === 'From base' ? 'Foundry model' : name;
+    }
+
+    function cloneDraft(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function appendChat(kind, text) {
+      const bubble = document.createElement('div');
+      bubble.style.maxWidth = '88%';
+      bubble.style.padding = '12px 14px';
+      bubble.style.borderRadius = '16px';
+      bubble.style.fontSize = '13px';
+      bubble.style.lineHeight = '1.5';
+      bubble.style.whiteSpace = 'pre-wrap';
+      if (kind === 'user') {
+        bubble.style.alignSelf = 'flex-end';
+        bubble.style.background = 'rgba(41,151,255,0.16)';
+        bubble.style.border = '1px solid rgba(41,151,255,0.34)';
+        bubble.style.color = '#f5f5f7';
+      } else {
+        bubble.style.alignSelf = 'flex-start';
+        bubble.style.background = 'rgba(255,255,255,0.04)';
+        bubble.style.border = '1px solid rgba(255,255,255,0.12)';
+        bubble.style.color = '#d2d2d7';
+      }
+      bubble.textContent = text;
+      els.chatLog.appendChild(bubble);
+      els.chatLog.scrollTop = els.chatLog.scrollHeight;
+    }
+
+    function inferRecommendation(text) {
+      const t = text.toLowerCase();
+      const draft = cloneDraft(state);
+      draft.chatDraft = null;
+
+      if (t.includes('insurance') || t.includes('claims') || t.includes('broker') || t.includes('policy')) {
+        draft.model = 'glm52';
+        draft.serviceModel = 'personal';
+        draft.dataSource = 'both';
+        draft.datasetDepth = 2;
+        draft.refinement = 'domain';
+        draft.alignment = 'strict-compliance';
+        draft.reasoningStrictness = 2;
+        draft.complianceLevel = 2;
+      } else if (t.includes('code') || t.includes('developer') || t.includes('saas') || t.includes('engineering')) {
+        draft.model = 'qwen';
+        draft.serviceModel = 'shared';
+        draft.dataSource = 'both';
+        draft.datasetDepth = 1;
+        draft.refinement = 'instruction';
+        draft.alignment = 'executive-reasoner';
+        draft.reasoningStrictness = 1;
+        draft.complianceLevel = 0;
+      } else if (t.includes('finance') || t.includes('legal') || t.includes('compliance') || t.includes('audit')) {
+        draft.model = 'deepseek';
+        draft.serviceModel = 'personal';
+        draft.dataSource = 'both';
+        draft.datasetDepth = 2;
+        draft.refinement = 'domain';
+        draft.alignment = 'strict-compliance';
+        draft.reasoningStrictness = 2;
+        draft.complianceLevel = 2;
+      } else {
+        draft.model = 'gptoss';
+        draft.serviceModel = 'shared';
+        draft.dataSource = 'both';
+        draft.datasetDepth = 1;
+        draft.refinement = 'memory';
+        draft.alignment = 'domain-safe';
+        draft.reasoningStrictness = 1;
+        draft.complianceLevel = 1;
+      }
+
+      if (t.includes('personalized') || t.includes('personalised') || t.includes('private') || t.includes('dedicated')) {
+        draft.serviceModel = 'personal';
+        draft.refinement = 'memory';
+      }
+      if (t.includes('cheap') || t.includes('budget') || t.includes('faster launch') || t.includes('mvp')) {
+        draft.serviceModel = 'shared';
+        draft.params = Math.min(draft.params, 1);
+        draft.datasetDepth = Math.min(draft.datasetDepth, 1);
+      }
+      if (t.includes('best quality') || t.includes('highest quality') || t.includes('maximum quality')) {
+        draft.params = 4;
+        draft.tuningDepth = 3;
+      }
+      if (t.includes('no rag')) {
+        draft.tuningDepth = 4;
+      }
+      if (t.includes('rag') || t.includes('search') || t.includes('documents') || t.includes('knowledge base')) {
+        draft.refinement = 'memory';
+      }
+      if (t.includes('chatbot') || t.includes('support')) {
+        draft.gui = true;
+        draft.hosting = true;
+      }
+
+      return draft;
+    }
+
+    function explainDraft(draft) {
+      const service = draft.serviceModel === 'personal' ? 'Personal' : 'Shared';
+      const modelName = draft.everythingFromBase ? 'Foundry model' : models[draft.model].name;
+      return 'Starter recommendation:\n'
+        + '- ' + service + ' ' + modelName + '\n'
+        + '- ' + PARAMS[draft.params] + '\n'
+        + '- ' + DEPTH[draft.datasetDepth] + ' dataset build\n'
+        + '- ' + TUNE[draft.tuningDepth] + '\n'
+        + '- ' + ALIGNMENT[draft.alignment] + ' alignment\n\n'
+        + 'You can now hit "Apply recommendation" and then tweak every option manually.';
+    }
+
+    function money(n) {
+      return '$' + Math.round(n).toLocaleString('en-US');
+    }
+
+    function buttonClass(active, type) {
+      const classes = [type];
+      if (active) classes.push('active');
+      return classes.join(' ');
+    }
+
+    function radarSvg(values) {
+      const labels = ['Coding', 'Thinking', 'Speed', 'Cost', 'Context', 'Custom'];
+      const cx = 140;
+      const cy = 140;
+      const r = 88;
+      const rings = [];
+      const axis = [];
+      const pts = [];
+
+      for (let ring = 1; ring <= 5; ring++) {
+        const rp = (r * ring) / 5;
+        const ringPts = [];
+        for (let i = 0; i < 6; i++) {
+          const a = -Math.PI / 2 + i * (Math.PI * 2 / 6);
+          ringPts.push((cx + Math.cos(a) * rp).toFixed(1) + ',' + (cy + Math.sin(a) * rp).toFixed(1));
+        }
+        rings.push('<polygon points="' + ringPts.join(' ') + '" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>');
+      }
+
+      for (let i = 0; i < 6; i++) {
+        const a = -Math.PI / 2 + i * (Math.PI * 2 / 6);
+        const ox = cx + Math.cos(a) * r;
+        const oy = cy + Math.sin(a) * r;
+        const lx = cx + Math.cos(a) * (r + 26);
+        const ly = cy + Math.sin(a) * (r + 20);
+        axis.push('<line x1="' + cx + '" y1="' + cy + '" x2="' + ox.toFixed(1) + '" y2="' + oy.toFixed(1) + '" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>');
+        axis.push('<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="middle" fill="#a1a1a8" font-size="11">' + labels[i] + '</text>');
+        const rv = Math.max(0, Math.min(100, values[i])) / 100;
+        pts.push((cx + Math.cos(a) * r * rv).toFixed(1) + ',' + (cy + Math.sin(a) * r * rv).toFixed(1));
+      }
+
+      return '<svg width="280" height="280" viewBox="0 0 280 280" aria-label="model radar chart">'
+        + rings.join('')
+        + axis.join('')
+        + '<polygon points="' + pts.join(' ') + '" fill="rgba(41,151,255,0.22)" stroke="#2997ff" stroke-width="2"/>'
+        + '<circle cx="' + cx + '" cy="' + cy + '" r="3" fill="#2997ff"/>'
+        + '</svg>';
+    }
+
+    function renderChoices() {
+      els.serviceModel.innerHTML = [
+        {
+          key: 'personal',
+          title: 'Personal ' + activeModelTitle(),
+          meta: 'Dedicated weights, dedicated retrieval, dedicated hosting profile.'
+        },
+        {
+          key: 'shared',
+          title: 'Shared ' + activeModelTitle(),
+          meta: 'Shared base model with your private RAG, lower cost and faster launch.'
+        }
+      ].map(item => {
+        return '<button class="' + buttonClass(state.serviceModel === item.key, 'choice') + '" data-service="' + item.key + '">'
+          + '<div class="choice-title">' + item.title + '</div>'
+          + '<div class="choice-meta">' + item.meta + '</div>'
+          + '</button>';
+      }).join('');
+
+      els.modelFamily.innerHTML = ['glm52', 'deepseek', 'qwen', 'gptoss'].map(key => {
+        const model = models[key];
+        return '<button class="' + buttonClass(!state.everythingFromBase && state.model === key, 'choice') + '" data-model="' + key + '">'
+          + '<div class="choice-title">' + model.name + '</div>'
+          + '<div class="choice-meta">' + model.meta + '</div>'
+          + '</button>';
+      }).join('');
+
+      els.everythingFromBase.className = buttonClass(state.everythingFromBase, 'row-btn');
+      els.everythingFromBase.innerHTML = '<span style="font-size:14px;font-weight:600;color:var(--text);">Everything from base model up</span>'
+        + '<span class="row-sub">'
+        + (state.everythingFromBase ? 'On — bespoke architecture and base training' : 'Off — start from selected frontier model')
+        + '</span>';
+
+      els.dataSource.innerHTML = [
+        ['internal', 'Internal only'],
+        ['external', 'External only'],
+        ['both', 'Internal + external']
+      ].map(([key, label]) => {
+        return '<button class="' + buttonClass(state.dataSource === key, 'chip') + '" data-source="' + key + '">' + label + '</button>';
+      }).join('');
+
+      els.refinementLayer.innerHTML = [
+        ['instruction', 'Instruction refinement', 'Sharpen task execution and reasoning behavior'],
+        ['domain', 'Domain refinement layer', 'Insurance, legal, finance, healthcare, or your own domain'],
+        ['memory', 'Memory / RAG refinement layer', 'Personalization, retrieval orchestration and grounding behavior']
+      ].map(([key, title, sub]) => {
+        return '<button class="' + buttonClass(state.refinement === key, 'row-btn') + '" data-refinement="' + key + '">'
+          + '<span style="font-size:15px;font-weight:600;color:var(--text);">' + title + '</span>'
+          + '<span class="row-sub">' + sub + '</span>'
+          + '</button>';
+      }).join('');
+
+      els.alignmentMode.innerHTML = [
+        ['general-safe', 'General safe assistant'],
+        ['domain-safe', 'Domain-safe professional'],
+        ['strict-compliance', 'Strict compliance assistant'],
+        ['executive-reasoner', 'Executive reasoning mode']
+      ].map(([key, label]) => {
+        return '<button class="' + buttonClass(state.alignment === key, 'chip') + '" data-alignment="' + key + '">' + label + '</button>';
+      }).join('');
+
+      els.deliveryStack.innerHTML = [
+        ['hosting', 'Model server hosting', 'Dedicated, shared, VPC or on-prem deployment'],
+        ['gui', 'Custom GUI', 'Branded front-end, workspace flows and admin surfaces'],
+        ['maintenance', 'Maintenance', 'Monitoring, evals, retraining and support']
+      ].map(([key, title, sub]) => {
+        return '<button class="' + buttonClass(state[key], 'row-btn') + '" data-delivery="' + key + '">'
+          + '<span style="font-size:15px;font-weight:600;color:var(--text);">' + title + '</span>'
+          + '<span class="row-sub">' + sub + ' · ' + (state[key] ? 'Included' : 'Skip') + '</span>'
+          + '</button>';
+      }).join('');
+    }
+
+    function renderSummary() {
+      const selectedModelKey = state.everythingFromBase ? 'frombase' : state.model;
+      const selectedModel = models[selectedModelKey];
+      const dataSourceLabel = state.dataSource === 'internal' ? 'Internal only' : state.dataSource === 'external' ? 'External only' : 'Internal + external';
+      const refinementLabel = state.refinement === 'instruction' ? 'Instruction refinement' : state.refinement === 'domain' ? 'Domain refinement' : 'Memory / RAG refinement';
+      const deliveryParts = [state.hosting && 'Hosting', state.gui && 'Custom GUI', state.maintenance && 'Maintenance'].filter(Boolean);
+
+      const noRagMode = state.tuningDepth === 4;
+
+      const buildScore = Math.min(100,
+        18
+        + (state.serviceModel === 'personal' ? 16 : 6)
+        + state.params * 12
+        + state.datasetDepth * 10
+        + state.tuningDepth * 12
+        + state.reasoningStrictness * 4
+        + state.complianceLevel * 4
+        + (state.everythingFromBase ? 22 : 0)
+        + (state.hosting ? 4 : 0)
+        + (state.gui ? 4 : 0)
+        + (state.maintenance ? 4 : 0)
+      );
+
+      const buildWord = buildScore < 35 ? 'Light' : buildScore < 58 ? 'Medium' : buildScore < 80 ? 'Heavy' : 'Foundry-grade';
+      const weeksBase = 3 + (state.serviceModel === 'personal' ? 2 : 0) + state.params + state.datasetDepth + state.tuningDepth + (state.everythingFromBase ? 6 : 0);
+      const timeLabel = Math.max(3, weeksBase) + '–' + (Math.max(3, weeksBase) + 3) + ' weeks';
+      const tier = state.everythingFromBase || noRagMode ? 'Foundry' : (state.serviceModel === 'shared' && buildScore < 52 ? 'Integrate' : 'Customize');
+
+      const sparkCount = state.serviceModel === 'shared'
+        ? (state.params <= 1 ? 1 : state.params <= 2 ? 2 : 3)
+        : (state.params <= 1 ? 2 : state.params <= 2 ? 3 : state.params === 3 ? 4 : 5);
+      const dgxAmortized = sparkCount * 650;
+      const hostingOps = sparkCount * 280;
+      const inferencePower = sparkCount * 240 * 24 * 30 / 1000 * 0.14;
+      const trainingPower = (state.everythingFromBase ? 2200 : 900 + state.tuningDepth * 450 + state.datasetDepth * 180);
+      const electricity = inferencePower + trainingPower;
+      const fineTuneEngineering = 1800 + state.tuningDepth * 1200 + state.datasetDepth * 700;
+      const refinementEngineering = 900 + (state.refinement === 'instruction' ? 400 : state.refinement === 'domain' ? 900 : 1200);
+      const alignmentEngineering = 700 + state.reasoningStrictness * 250 + state.complianceLevel * 450 + (state.alignment === 'strict-compliance' ? 700 : state.alignment === 'executive-reasoner' ? 500 : 250);
+      const ragOps = noRagMode ? 0 : (state.refinement === 'memory' ? 1200 : 700);
+      const guiCost = state.gui ? 1600 : 0;
+      const maintenanceCost = state.maintenance ? (1200 + sparkCount * 180) : 0;
+      const baseSubtotal = dgxAmortized + hostingOps + electricity + fineTuneEngineering + refinementEngineering + alignmentEngineering + ragOps + guiCost + maintenanceCost;
+      const margin = baseSubtotal * (tier === 'Foundry' ? 0.42 : tier === 'Customize' ? 0.34 : 0.26);
+      const total = baseSubtotal + margin;
+      const summaryParagraph = state.serviceModel === 'personal'
+        ? 'This config points toward a dedicated model stack with your own retrieval memory, stronger fine-tuning and a higher long-term quality ceiling.'
+        : 'This config points toward a shared high-performance base model with your private context layer, which keeps launch time and serving cost lower.';
+      const summaryParagraph2 = noRagMode
+        ? 'You selected the no-RAG path, which means Markaige treats this like a deeply personalized model build where the weights themselves carry the behavior instead of relying on retrieval at runtime.'
+        : state.everythingFromBase
+        ? 'Because you asked for everything from the base up, this becomes a foundry-style engagement: custom architecture, more training compute and a longer build cycle.'
+        : 'Starting from ' + selectedModel.name + ' keeps the build grounded in a proven base while letting Markaige focus effort on your data, refinement layers and hosting shape.';
+
+      els.paramLabel.textContent = PARAMS[state.params];
+      els.internalLabel.textContent = DATA_AMT[state.internalData];
+      els.externalLabel.textContent = DATA_AMT[state.externalData];
+      els.datasetDepthLabel.textContent = DEPTH[state.datasetDepth];
+      els.tuningDepthLabel.textContent = TUNE[state.tuningDepth];
+      els.reasoningLabel.textContent = REASONING[state.reasoningStrictness];
+      els.complianceLabel.textContent = COMPLIANCE[state.complianceLevel];
+
+      els.summaryList.innerHTML = [
+        ['Plan shape', (state.serviceModel === 'personal' ? 'Personal GLM' : 'Shared GLM') + (state.everythingFromBase ? ' · from base' : '')],
+        ['Base model', selectedModel.name],
+        ['Parameters', PARAMS[state.params]],
+        ['Data plan', dataSourceLabel + ' · ' + DATA_AMT[state.internalData] + ' internal · ' + DATA_AMT[state.externalData] + ' external · ' + DEPTH[state.datasetDepth]],
+        ['Fine-tuning', TUNE[state.tuningDepth] + ' · ' + refinementLabel],
+        ['Alignment', ALIGNMENT[state.alignment] + ' · ' + REASONING[state.reasoningStrictness] + ' reasoning · ' + COMPLIANCE[state.complianceLevel] + ' guardrails'],
+        ['Delivery', deliveryParts.length ? deliveryParts.join(' · ') : 'Endpoint only']
+      ].map(([label, value]) => {
+        return '<div class="summary-row"><span>' + label + '</span><span>' + value + '</span></div>';
+      }).join('');
+
+      els.buildWord.textContent = buildWord;
+      els.buildFill.style.width = buildScore + '%';
+      els.timeLabel.textContent = timeLabel;
+      els.tier.textContent = tier;
+
+      els.priceGrid.innerHTML = [
+        ['DGX Spark infra', money(dgxAmortized)],
+        ['Hosting + serving ops', money(hostingOps)],
+        ['Electricity', money(electricity)],
+        ['Fine-tuning engineering', money(fineTuneEngineering)],
+        ['Refinement layer work', money(refinementEngineering)],
+        ['Alignment work', money(alignmentEngineering)],
+        ['RAG / memory ops', money(ragOps)],
+        ['Custom GUI', guiCost ? money(guiCost) : '—'],
+        ['Maintenance', maintenanceCost ? money(maintenanceCost) : '—'],
+        ['Profit margin', money(margin)]
+      ].map(([label, value]) => '<div>' + label + '</div><div>' + value + '</div>').join('');
+      els.priceTotal.textContent = money(total) + '/mo';
+
+      els.radarTitle.textContent = selectedModel.name;
+      els.radarBox.innerHTML = radarSvg(selectedModel.radar);
+      els.bestUse.textContent = selectedModel.bestUse;
+      els.serveProfile.textContent = selectedModel.serve;
+      els.summaryParagraph.textContent = summaryParagraph;
+      els.summaryParagraph2.textContent = summaryParagraph2;
+    }
+
+    function render() {
+      els.params.value = state.params;
+      els.internalData.value = state.internalData;
+      els.externalData.value = state.externalData;
+      els.datasetDepth.value = state.datasetDepth;
+      els.tuningDepth.value = state.tuningDepth;
+      els.reasoningStrictness.value = state.reasoningStrictness;
+      els.complianceLevel.value = state.complianceLevel;
+      renderChoices();
+      renderSummary();
+      bindDynamicEvents();
+      els.chatApply.className = buttonClass(!!state.chatDraft, 'chip') + ' active';
+      if (!state.chatDraft) {
+        els.chatApply.style.opacity = '.55';
+      } else {
+        els.chatApply.style.opacity = '1';
+      }
+    }
+
+    function bindDynamicEvents() {
+      document.querySelectorAll('[data-service]').forEach(el => {
+        el.onclick = () => { state.serviceModel = el.dataset.service; render(); };
+      });
+      document.querySelectorAll('[data-model]').forEach(el => {
+        el.onclick = () => { state.model = el.dataset.model; state.everythingFromBase = false; render(); };
+      });
+      document.querySelectorAll('[data-source]').forEach(el => {
+        el.onclick = () => { state.dataSource = el.dataset.source; render(); };
+      });
+      document.querySelectorAll('[data-refinement]').forEach(el => {
+        el.onclick = () => { state.refinement = el.dataset.refinement; render(); };
+      });
+      document.querySelectorAll('[data-alignment]').forEach(el => {
+        el.onclick = () => { state.alignment = el.dataset.alignment; render(); };
+      });
+      document.querySelectorAll('[data-delivery]').forEach(el => {
+        el.onclick = () => { const key = el.dataset.delivery; state[key] = !state[key]; render(); };
+      });
+    }
+
+    els.everythingFromBase.onclick = () => {
+      state.everythingFromBase = !state.everythingFromBase;
+      render();
+    };
+    els.params.oninput = e => { state.params = Number(e.target.value); renderSummary(); };
+    els.internalData.oninput = e => { state.internalData = Number(e.target.value); renderSummary(); };
+    els.externalData.oninput = e => { state.externalData = Number(e.target.value); renderSummary(); };
+    els.datasetDepth.oninput = e => { state.datasetDepth = Number(e.target.value); renderSummary(); };
+    els.tuningDepth.oninput = e => { state.tuningDepth = Number(e.target.value); renderSummary(); };
+    els.reasoningStrictness.oninput = e => { state.reasoningStrictness = Number(e.target.value); renderSummary(); };
+    els.complianceLevel.oninput = e => { state.complianceLevel = Number(e.target.value); renderSummary(); };
+
+    els.chatSend.onclick = () => {
+      const text = els.chatInput.value.trim();
+      if (!text) return;
+      appendChat('user', text);
+      const draft = inferRecommendation(text);
+      state.chatDraft = draft;
+      appendChat('assistant', explainDraft(draft));
+      els.chatInput.value = '';
+      render();
+    };
+
+    els.chatApply.onclick = () => {
+      if (!state.chatDraft) return;
+      const draft = state.chatDraft;
+      state.serviceModel = draft.serviceModel;
+      state.model = draft.model;
+      state.everythingFromBase = draft.everythingFromBase;
+      state.params = draft.params;
+      state.dataSource = draft.dataSource;
+      state.internalData = draft.internalData;
+      state.externalData = draft.externalData;
+      state.datasetDepth = draft.datasetDepth;
+      state.tuningDepth = draft.tuningDepth;
+      state.refinement = draft.refinement;
+      state.alignment = draft.alignment;
+      state.reasoningStrictness = draft.reasoningStrictness;
+      state.complianceLevel = draft.complianceLevel;
+      state.hosting = draft.hosting;
+      state.gui = draft.gui;
+      state.maintenance = draft.maintenance;
+      appendChat('assistant', 'Recommendation applied. You can now edit any field manually.');
+      render();
+    };
+
+    els.chatReset.onclick = () => {
+      state.chatDraft = null;
+      els.chatLog.innerHTML = '';
+      appendChat('assistant', 'Tell me about your company, what the model should do, your industry, and whether you want low cost, compliance, personalization, or deep fine-tuning. I will draft a starting setup.');
+      render();
+    };
+
+    appendChat('assistant', 'Tell me about your company, what the model should do, your industry, and whether you want low cost, compliance, personalization, or deep fine-tuning. I will draft a starting setup.');
+    render();
+  </script>
+</body>
+</html>

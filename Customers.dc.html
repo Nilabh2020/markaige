@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin:0; background:#000; color:#f5f5f7; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  ::selection { background: rgba(41,151,255,0.32); }
+  @media (max-width:720px){
+    nav > div{height:auto!important;flex-wrap:wrap!important;padding-top:10px!important;padding-bottom:10px!important;}
+    nav [style*="align-items:center;gap:26px"]{flex-wrap:wrap!important;justify-content:center!important;gap:10px 14px!important;}
+    [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr 1fr!important;}
+    [style*="grid-template-columns:repeat(6,1fr)"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:1fr 400px"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:1fr 380px"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:1fr 360px"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:1fr 300px"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:200px 1fr"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:120px 1fr"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important;}
+    [style*="border-radius:20px;overflow:hidden"]{overflow-x:auto!important;}
+    [style*="grid-template-columns:1.6fr 1fr 1fr 1fr"]{min-width:560px!important;}
+    [style*="position:sticky;top:72px"]{position:static!important;}
+    [style*="position:sticky;top:80px"]{position:static!important;}
+  }
+  @keyframes mk-glow { 0%,100% { opacity:.45; transform:translate(-50%,-50%) scale(1);} 50% { opacity:.8; transform:translate(-50%,-50%) scale(1.1);} }
+</style>
+</helmet>
+
+<div ref="{{ root }}" data-screen-label="Customers" style="background:#000;overflow:hidden;position:relative;">
+
+  <nav style="position:sticky;top:0;z-index:50;backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);background:rgba(0,0,0,0.6);border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1180px;margin:0 auto;padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between;">
+      <a href="Markaige.dc.html" style="display:flex;align-items:center;gap:9px;text-decoration:none;">
+        <span style="width:9px;height:9px;border-radius:50%;background:#2997ff;box-shadow:0 0 12px #2997ff;display:inline-block;"></span>
+        <span style="font-size:19px;font-weight:600;letter-spacing:-0.02em;color:#f5f5f7;">Markaige</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:26px;">
+        <a href="Platform.dc.html" style="font-size:13px;color:#d2d2d7;text-decoration:none;letter-spacing:-0.01em;" style-hover="color:#fff;">Platform</a>
+        <a href="Models.dc.html" style="font-size:13px;color:#d2d2d7;text-decoration:none;letter-spacing:-0.01em;" style-hover="color:#fff;">Models</a>
+        <a href="Build-standalone.html" style="font-size:13px;color:#d2d2d7;text-decoration:none;letter-spacing:-0.01em;" style-hover="color:#fff;">Build studio</a>
+        <a href="Process.dc.html" style="font-size:13px;color:#d2d2d7;text-decoration:none;letter-spacing:-0.01em;" style-hover="color:#fff;">How it works</a>
+        <a href="Customers.dc.html" style="font-size:13px;color:#fff;font-weight:500;text-decoration:none;letter-spacing:-0.01em;">Customers</a>
+        <a href="Plans.dc.html" style="font-size:13px;color:#d2d2d7;text-decoration:none;letter-spacing:-0.01em;" style-hover="color:#fff;">Plans</a>
+      </div>
+      <a href="Contact.dc.html" style="font-size:13px;font-weight:500;color:#000;background:#f5f5f7;padding:7px 15px;border-radius:980px;text-decoration:none;" style-hover="background:#fff;">Talk to us</a>
+    </div>
+  </nav>
+
+  <header style="position:relative;padding:96px 28px 40px;text-align:center;">
+    <div style="position:absolute;top:34%;left:50%;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,#2997ff,transparent 62%);filter:blur(70px);opacity:.38;animation:mk-glow 10s ease-in-out infinite;pointer-events:none;"></div>
+    <div style="position:relative;max-width:880px;margin:0 auto;">
+      <div style="font-size:13px;font-weight:600;letter-spacing:0.04em;color:#2997ff;margin-bottom:22px;text-transform:uppercase;">Customers</div>
+      <h1 style="font-size:clamp(42px,6.4vw,80px);line-height:1.04;letter-spacing:-0.035em;font-weight:600;margin:0 0 24px;color:#f5f5f7;text-wrap:balance;">Models in production.</h1>
+      <p style="font-size:clamp(18px,2.2vw,22px);line-height:1.5;color:#a1a1a8;max-width:680px;margin:0 auto;letter-spacing:-0.01em;text-wrap:pretty;">Representative engagements across regulated, high-stakes industries — the problem, the model we built, and the outcome.</p>
+    </div>
+  </header>
+
+  <!-- case studies -->
+  <section style="padding:50px 28px 20px;">
+    <div style="max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:18px;">
+
+      <div data-reveal="" style="opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);background:linear-gradient(160deg,#161617,#0b0b0c);border:1px solid rgba(255,255,255,0.09);border-radius:24px;padding:40px;display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:center;">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#2997ff;letter-spacing:0.03em;text-transform:uppercase;margin-bottom:14px;">Financial services</div>
+          <h2 style="font-size:26px;font-weight:600;letter-spacing:-0.02em;margin:0 0 12px;color:#f5f5f7;">A reasoning model for risk analysis</h2>
+          <p style="font-size:16px;line-height:1.55;color:#a1a1a8;margin:0 0 14px;">A global lender needed analysts to interrogate thousands of filings without hallucinations. We refined ten years of internal documents into a golden dataset and built a reasoning model that cites every claim back to source.</p>
+          <p style="font-size:14px;line-height:1.55;color:#86868b;margin:0;">Deployed in their own VPC under a 99.9% SLA, retrained quarterly.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;"><div style="font-size:34px;font-weight:600;letter-spacing:-0.02em;color:#f5f5f7;">73%</div><div style="font-size:13px;color:#86868b;margin-top:4px;">less time per analysis</div></div>
+          <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;"><div style="font-size:34px;font-weight:600;letter-spacing:-0.02em;color:#f5f5f7;">0</div><div style="font-size:13px;color:#86868b;margin-top:4px;">uncited claims in eval set</div></div>
+        </div>
+      </div>
+
+      <div data-reveal="" style="opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);background:linear-gradient(160deg,#161617,#0b0b0c);border:1px solid rgba(255,255,255,0.09);border-radius:24px;padding:40px;display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:center;">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#2997ff;letter-spacing:0.03em;text-transform:uppercase;margin-bottom:14px;">Healthcare</div>
+          <h2 style="font-size:26px;font-weight:600;letter-spacing:-0.02em;margin:0 0 12px;color:#f5f5f7;">A from-scratch model for clinical notes</h2>
+          <p style="font-size:16px;line-height:1.55;color:#a1a1a8;margin:0 0 14px;">A health network couldn't send patient data to third-party APIs. In Foundry we trained a base model from scratch on de-identified records, deployed fully on-prem and air-gapped — the weights never leave their building.</p>
+          <p style="font-size:14px;line-height:1.55;color:#86868b;margin:0;">On-prem, air-gapped, owned outright by the customer.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;"><div style="font-size:34px;font-weight:600;letter-spacing:-0.02em;color:#f5f5f7;">100%</div><div style="font-size:13px;color:#86868b;margin-top:4px;">data kept on-premise</div></div>
+          <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;"><div style="font-size:34px;font-weight:600;letter-spacing:-0.02em;color:#f5f5f7;">6 hrs</div><div style="font-size:13px;color:#86868b;margin-top:4px;">saved per clinician / week</div></div>
+        </div>
+      </div>
+
+      <div data-reveal="" style="opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);background:linear-gradient(160deg,#161617,#0b0b0c);border:1px solid rgba(255,255,255,0.09);border-radius:24px;padding:40px;display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:center;">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#2997ff;letter-spacing:0.03em;text-transform:uppercase;margin-bottom:14px;">Retail</div>
+          <h2 style="font-size:26px;font-weight:600;letter-spacing:-0.02em;margin:0 0 12px;color:#f5f5f7;">A marketing model in one brand voice</h2>
+          <p style="font-size:16px;line-height:1.55;color:#a1a1a8;margin:0 0 14px;">A retailer with 40 markets wanted on-brand copy everywhere. We fine-tuned a marketing model on their style guide and top campaigns, combined it with a retrieval layer for live catalog data, and shipped it as one endpoint.</p>
+          <p style="font-size:14px;line-height:1.55;color:#86868b;margin:0;">Hosted on Markaige cloud, integrated over MCP.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;"><div style="font-size:34px;font-weight:600;letter-spacing:-0.02em;color:#f5f5f7;">4×</div><div style="font-size:13px;color:#86868b;margin-top:4px;">faster campaign turnaround</div></div>
+          <div style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;"><div style="font-size:34px;font-weight:600;letter-spacing:-0.02em;color:#f5f5f7;">94%</div><div style="font-size:13px;color:#86868b;margin-top:4px;">brand-voice fidelity score</div></div>
+        </div>
+      </div>
+
+    </div>
+    <div style="max-width:1080px;margin:14px auto 0;font-size:12px;color:#6e6e73;text-align:center;">Illustrative engagements. Figures are representative of typical outcomes and shown for demonstration.</div>
+  </section>
+
+  <!-- quote -->
+  <section data-reveal="" style="opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);padding:80px 28px;">
+    <div style="max-width:860px;margin:0 auto;text-align:center;">
+      <p style="font-size:clamp(24px,3.2vw,36px);line-height:1.3;letter-spacing:-0.02em;font-weight:600;color:#f5f5f7;margin:0 0 26px;text-wrap:balance;">“They didn't sell us a model. They built us the right one, proved it on our own data, and still run it. It's ours.”</p>
+      <div style="font-size:14px;color:#86868b;">Head of AI · representative customer</div>
+    </div>
+  </section>
+
+  <!-- industries strip -->
+  <section style="border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="max-width:1080px;margin:0 auto;padding:30px 28px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;">
+      <span style="font-size:13px;color:#6e6e73;">Trusted across —</span>
+      <span style="font-size:15px;font-weight:600;color:#86868b;letter-spacing:0.02em;">FINANCE</span>
+      <span style="width:3px;height:3px;border-radius:50%;background:#3a3a3c;"></span>
+      <span style="font-size:15px;font-weight:600;color:#86868b;letter-spacing:0.02em;">HEALTH</span>
+      <span style="width:3px;height:3px;border-radius:50%;background:#3a3a3c;"></span>
+      <span style="font-size:15px;font-weight:600;color:#86868b;letter-spacing:0.02em;">RETAIL</span>
+      <span style="width:3px;height:3px;border-radius:50%;background:#3a3a3c;"></span>
+      <span style="font-size:15px;font-weight:600;color:#86868b;letter-spacing:0.02em;">LEGAL</span>
+      <span style="width:3px;height:3px;border-radius:50%;background:#3a3a3c;"></span>
+      <span style="font-size:15px;font-weight:600;color:#86868b;letter-spacing:0.02em;">DEFENSE</span>
+    </div>
+  </section>
+
+  <section id="cta" style="position:relative;padding:110px 28px;text-align:center;overflow:hidden;">
+    <div style="position:absolute;top:50%;left:50%;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,#2997ff,transparent 62%);filter:blur(70px);opacity:.4;transform:translate(-50%,-50%);pointer-events:none;"></div>
+    <div style="position:relative;max-width:720px;margin:0 auto;">
+      <h2 style="font-size:clamp(34px,4.8vw,60px);line-height:1.06;letter-spacing:-0.035em;font-weight:600;margin:0 0 22px;color:#f5f5f7;text-wrap:balance;">Your use case could be next.</h2>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:14px;">
+        <a href="Contact.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:#f5f5f7;color:#000;padding:16px 32px;border-radius:980px;font-size:18px;font-weight:500;text-decoration:none;transition:transform .2s,background .2s;" style-hover="background:#fff;transform:translateY(-1px);">Talk to us →</a>
+        <a href="Process.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);color:#f5f5f7;padding:16px 32px;border-radius:980px;font-size:18px;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,0.14);transition:background .2s;" style-hover="background:rgba(255,255,255,0.12);">See how we work</a>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" hint-size="100%,260px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  root = React.createRef();
+  renderVals() { return { root: this.root }; }
+  componentDidMount() {
+    const el = this.root.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='none'; io.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    el.querySelectorAll('[data-reveal]').forEach((n) => io.observe(n));
+  }
+}
+</script>
+</body>
+</html>

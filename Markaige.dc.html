@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: #000;
+    color: #f5f5f7;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection { background: rgba(41,151,255,0.32); }
+  @media (max-width:720px){
+    nav > div{height:auto!important;flex-wrap:wrap!important;padding-top:10px!important;padding-bottom:10px!important;}
+    nav [style*="align-items:center;gap:26px"]{flex-wrap:wrap!important;justify-content:center!important;gap:10px 14px!important;}
+    [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr 1fr!important;}
+    [style*="grid-template-columns:repeat(6,1fr)"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:1fr 400px"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:1fr 380px"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:1fr 360px"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:1fr 300px"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:200px 1fr"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:120px 1fr"]{grid-template-columns:1fr!important;}
+    [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important;}
+    [style*="border-radius:20px;overflow:hidden"]{overflow-x:auto!important;}
+    [style*="grid-template-columns:1.6fr 1fr 1fr 1fr"]{min-width:560px!important;}
+    [style*="position:sticky;top:72px"]{position:static!important;}
+    [style*="position:sticky;top:80px"]{position:static!important;}
+  }
+  @keyframes mk-glow { 0%,100% { opacity:.5; transform:translate(-50%,-50%) scale(1); } 50% { opacity:.85; transform:translate(-50%,-50%) scale(1.12); } }
+  @keyframes mk-spin { to { transform: rotate(360deg); } }
+  @keyframes mk-spin-rev { to { transform: rotate(-360deg); } }
+  @keyframes mk-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+</style>
+</helmet>
+
+<div ref="{{ root }}" data-screen-label="Markaige Home" style="background:#000;overflow:hidden;position:relative;">
+
+  <!-- ===================== NAV ===================== -->
+  <nav style="position:sticky;top:0;z-index:50;backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);background:rgba(0,0,0,0.6);border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1140px;margin:0 auto;padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between;">
+      <a href="#top" style="display:flex;align-items:center;gap:9px;text-decoration:none;">
+        <span style="width:9px;height:9px;border-radius:50%;background:{{ accent }};box-shadow:0 0 12px {{ accent }};display:inline-block;"></span>
+        <span style="font-size:19px;font-weight:600;letter-spacing:-0.02em;color:#f5f5f7;">Markaige</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:26px;">
+        <a href="Platform.dc.html" style="font-size:13px;color:#d2d2d7;text-decoration:none;letter-spacing:-0.01em;" style-hover="color:#fff;">Platform</a>
+        <a href="Models.dc.html" style="font-size:13px;color:#d2d2d7;text-decoration:none;letter-spacing:-0.01em;" style-hover="color:#fff;">Models</a>
+        <a href="Build-standalone.html" style="font-size:13px;color:#d2d2d7;text-decoration:none;letter-spacing:-0.01em;" style-hover="color:#fff;">Build studio</a>
+        <a href="Process.dc.html" style="font-size:13px;color:#d2d2d7;text-decoration:none;letter-spacing:-0.01em;" style-hover="color:#fff;">How it works</a>
+        <a href="Customers.dc.html" style="font-size:13px;color:#d2d2d7;text-decoration:none;letter-spacing:-0.01em;" style-hover="color:#fff;">Customers</a>
+        <a href="Plans.dc.html" style="font-size:13px;color:#d2d2d7;text-decoration:none;letter-spacing:-0.01em;" style-hover="color:#fff;">Plans</a>
+      </div>
+      <a href="Contact.dc.html" style="font-size:13px;font-weight:500;color:#000;background:#f5f5f7;padding:7px 15px;border-radius:980px;text-decoration:none;" style-hover="background:#fff;">Talk to us</a>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <header id="top" style="position:relative;padding:96px 28px 60px;">
+    <div style="display:{{ gridDisplay }};position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(ellipse 80% 60% at 50% 35%,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 35%,#000 30%,transparent 75%);pointer-events:none;"></div>
+    <div style="position:absolute;top:36%;left:50%;width:680px;height:680px;border-radius:50%;background:radial-gradient(circle, {{ accent }}, transparent 62%);filter:blur(60px);opacity:.5;animation:{{ glowAnim }};pointer-events:none;"></div>
+
+    <div style="position:relative;max-width:920px;margin:0 auto;text-align:center;">
+      <div style="font-size:13px;font-weight:600;letter-spacing:0.04em;color:{{ accent }};margin-bottom:22px;text-transform:uppercase;">End-to-end AI services</div>
+      <h1 style="font-size:clamp(46px,7.2vw,92px);line-height:1.02;letter-spacing:-0.035em;font-weight:600;margin:0 0 26px;color:#f5f5f7;">
+        Your own model.<br><span style="background:linear-gradient(180deg,#fff,#9a9aa0);-webkit-background-clip:text;background-clip:text;color:transparent;">Built from the ground up.</span>
+      </h1>
+      <p style="font-size:clamp(18px,2.2vw,22px);line-height:1.5;color:#a1a1a8;max-width:660px;margin:0 auto 40px;letter-spacing:-0.01em;">
+        Markaige designs, trains, hosts and maintains custom large language models for your business — from raw data to a deployed, benchmarked system that never stops learning.
+      </p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <a href="Build-standalone.html" style="display:inline-flex;align-items:center;gap:8px;background:#f5f5f7;color:#000;padding:15px 28px;border-radius:980px;font-size:17px;font-weight:500;text-decoration:none;letter-spacing:-0.01em;transition:transform .2s,background .2s;" style-hover="background:#fff;transform:translateY(-1px);">Build your model →</a>
+        <a href="Platform.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);color:#f5f5f7;padding:15px 28px;border-radius:980px;font-size:17px;font-weight:500;text-decoration:none;letter-spacing:-0.01em;border:1px solid rgba(255,255,255,0.14);transition:background .2s;" style-hover="background:rgba(255,255,255,0.12);">See how it works</a>
+      </div>
+    </div>
+
+    <div style="position:relative;height:380px;max-width:680px;margin:38px auto 0;display:flex;align-items:center;justify-content:center;">
+      <div style="position:absolute;width:300px;height:300px;border-radius:50%;border:1px solid rgba(255,255,255,0.10);"></div>
+      <div style="position:absolute;width:300px;height:300px;border-radius:50%;border-top:1.5px solid {{ accent }};border-right:1.5px solid transparent;border-bottom:1.5px solid transparent;border-left:1.5px solid transparent;animation:mk-spin 14s linear infinite;"></div>
+      <div style="position:absolute;width:386px;height:386px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);"></div>
+      <div style="position:absolute;width:386px;height:386px;border-radius:50%;border-bottom:1.5px solid rgba(255,255,255,0.35);border-top:1.5px solid transparent;border-left:1.5px solid transparent;border-right:1.5px solid transparent;animation:mk-spin-rev 22s linear infinite;"></div>
+      <div style="width:200px;height:200px;border-radius:50%;background:radial-gradient(circle at 32% 28%, #2b2b2e, #050506 70%);border:1px solid rgba(255,255,255,0.10);box-shadow:0 0 80px {{ accent }}, inset 0 1px 0 rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;">
+        <span style="font-size:15px;font-weight:600;letter-spacing:0.02em;color:#f5f5f7;">Markaige</span>
+      </div>
+      <div style="position:absolute;top:14%;left:6%;font-size:12px;font-weight:500;color:#d2d2d7;background:rgba(20,20,22,0.7);border:1px solid rgba(255,255,255,0.10);padding:7px 13px;border-radius:980px;backdrop-filter:blur(8px);animation:mk-float 6s ease-in-out infinite;">Reasoning</div>
+      <div style="position:absolute;top:24%;right:4%;font-size:12px;font-weight:500;color:#d2d2d7;background:rgba(20,20,22,0.7);border:1px solid rgba(255,255,255,0.10);padding:7px 13px;border-radius:980px;backdrop-filter:blur(8px);animation:mk-float 7s ease-in-out infinite .8s;">Coding</div>
+      <div style="position:absolute;bottom:16%;left:12%;font-size:12px;font-weight:500;color:#d2d2d7;background:rgba(20,20,22,0.7);border:1px solid rgba(255,255,255,0.10);padding:7px 13px;border-radius:980px;backdrop-filter:blur(8px);animation:mk-float 6.5s ease-in-out infinite .4s;">Advanced RAG</div>
+      <div style="position:absolute;bottom:22%;right:10%;font-size:12px;font-weight:500;color:#d2d2d7;background:rgba(20,20,22,0.7);border:1px solid rgba(255,255,255,0.10);padding:7px 13px;border-radius:980px;backdrop-filter:blur(8px);animation:mk-float 7.5s ease-in-out infinite 1.2s;">Golden dataset</div>
+    </div>
+  </header>
+
+  <!-- ===================== LOGO STRIP ===================== -->
+  <section style="border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="max-width:1140px;margin:0 auto;padding:26px 28px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;">
+      <span style="font-size:13px;color:#6e6e73;letter-spacing:-0.01em;">The AI services partner behind teams that ship —</span>
+      <span style="font-size:15px;font-weight:600;color:#86868b;letter-spacing:0.02em;">FINANCE</span>
+      <span style="width:3px;height:3px;border-radius:50%;background:#3a3a3c;"></span>
+      <span style="font-size:15px;font-weight:600;color:#86868b;letter-spacing:0.02em;">HEALTH</span>
+      <span style="width:3px;height:3px;border-radius:50%;background:#3a3a3c;"></span>
+      <span style="font-size:15px;font-weight:600;color:#86868b;letter-spacing:0.02em;">RETAIL</span>
+      <span style="width:3px;height:3px;border-radius:50%;background:#3a3a3c;"></span>
+      <span style="font-size:15px;font-weight:600;color:#86868b;letter-spacing:0.02em;">LEGAL</span>
+      <span style="width:3px;height:3px;border-radius:50%;background:#3a3a3c;"></span>
+      <span style="font-size:15px;font-weight:600;color:#86868b;letter-spacing:0.02em;">DEFENSE</span>
+    </div>
+  </section>
+
+  <!-- ===================== POSITIONING ===================== -->
+  <section data-reveal="" style="opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);padding:120px 28px;">
+    <div style="max-width:1000px;margin:0 auto;text-align:center;">
+      <div style="font-size:13px;font-weight:600;letter-spacing:0.04em;color:{{ accent }};margin-bottom:22px;text-transform:uppercase;">The Markaige idea</div>
+      <h2 style="font-size:clamp(34px,4.6vw,58px);line-height:1.08;letter-spacing:-0.03em;font-weight:600;margin:0 0 24px;color:#f5f5f7;text-wrap:balance;">Not one model. Many — combined into one.</h2>
+      <p style="font-size:clamp(18px,2.2vw,22px);line-height:1.55;color:#a1a1a8;max-width:740px;margin:0 auto;letter-spacing:-0.01em;text-wrap:pretty;">Think of us as a services company for intelligence. We build a fleet of specialized models — reasoning, coding, retrieval, your domain — and combine the whole stack into a single system tuned to your business. End to end. Built, hosted and maintained.</p>
+      <div style="display:flex;align-items:center;justify-content:center;gap:18px;margin-top:48px;flex-wrap:wrap;">
+        <span style="font-size:13px;font-weight:500;color:#d2d2d7;background:rgba(20,20,22,0.8);border:1px solid rgba(255,255,255,0.10);padding:10px 16px;border-radius:12px;">Reasoning</span>
+        <span style="font-size:13px;font-weight:500;color:#d2d2d7;background:rgba(20,20,22,0.8);border:1px solid rgba(255,255,255,0.10);padding:10px 16px;border-radius:12px;">Coding</span>
+        <span style="font-size:13px;font-weight:500;color:#d2d2d7;background:rgba(20,20,22,0.8);border:1px solid rgba(255,255,255,0.10);padding:10px 16px;border-radius:12px;">Retrieval</span>
+        <span style="font-size:13px;font-weight:500;color:#d2d2d7;background:rgba(20,20,22,0.8);border:1px solid rgba(255,255,255,0.10);padding:10px 16px;border-radius:12px;">Your domain</span>
+        <span style="font-size:18px;color:#6e6e73;">→</span>
+        <span style="font-size:14px;font-weight:600;color:#000;background:{{ accent }};padding:11px 18px;border-radius:12px;box-shadow:0 0 30px {{ accent }};">One Markaige model</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PLATFORM TEASER ===================== -->
+  <section data-reveal="" style="opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);padding:0 28px 110px;">
+    <div style="max-width:1140px;margin:0 auto;">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:40px;flex-wrap:wrap;">
+        <div style="max-width:560px;">
+          <div style="font-size:13px;font-weight:600;letter-spacing:0.04em;color:{{ accent }};margin-bottom:16px;text-transform:uppercase;">The platform</div>
+          <h2 style="font-size:clamp(30px,4vw,48px);line-height:1.08;letter-spacing:-0.03em;font-weight:600;margin:0;color:#f5f5f7;text-wrap:balance;">Everything it takes to ship intelligence.</h2>
+        </div>
+        <a href="Platform.dc.html" style="font-size:15px;font-weight:500;color:{{ accent }};text-decoration:none;white-space:nowrap;" style-hover="color:#fff;">Explore the platform →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+        <a href="Platform.dc.html" style="text-decoration:none;display:block;background:linear-gradient(160deg,#161617,#0b0b0c);border:1px solid rgba(255,255,255,0.09);border-radius:22px;padding:30px;min-height:200px;display:flex;flex-direction:column;justify-content:flex-end;transition:border-color .2s;" style-hover="border-color:rgba(255,255,255,0.22);">
+          <h3 style="font-size:21px;font-weight:600;letter-spacing:-0.02em;margin:0 0 10px;color:#f5f5f7;">Custom models, from scratch</h3>
+          <p style="font-size:15px;line-height:1.5;color:#a1a1a8;margin:0;">Base models or ground-up training, tuned to your domain and parameters.</p>
+        </a>
+        <a href="Platform.dc.html" style="text-decoration:none;display:block;background:linear-gradient(160deg,#161617,#0b0b0c);border:1px solid rgba(255,255,255,0.09);border-radius:22px;padding:30px;min-height:200px;display:flex;flex-direction:column;justify-content:flex-end;transition:border-color .2s;" style-hover="border-color:rgba(255,255,255,0.22);">
+          <h3 style="font-size:21px;font-weight:600;letter-spacing:-0.02em;margin:0 0 10px;color:#f5f5f7;">Data cleaner &amp; refiner engine</h3>
+          <p style="font-size:15px;line-height:1.5;color:#a1a1a8;margin:0;">Messy data in, a golden dataset out — built for training your model.</p>
+        </a>
+        <a href="Platform.dc.html" style="text-decoration:none;display:block;background:linear-gradient(160deg,#161617,#0b0b0c);border:1px solid rgba(255,255,255,0.09);border-radius:22px;padding:30px;min-height:200px;display:flex;flex-direction:column;justify-content:flex-end;transition:border-color .2s;" style-hover="border-color:rgba(255,255,255,0.22);">
+          <h3 style="font-size:21px;font-weight:600;letter-spacing:-0.02em;margin:0 0 10px;color:#f5f5f7;">Hosting, RAG &amp; ModelOps</h3>
+          <p style="font-size:15px;line-height:1.5;color:#a1a1a8;margin:0;">Grounded retrieval, managed hosting and SLAs that keep models sharp.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PLANS TEASER ===================== -->
+  <section data-reveal="" style="opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);padding:100px 28px;background:linear-gradient(180deg,#000,#070708,#000);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="max-width:1140px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:48px;">
+        <div style="font-size:13px;font-weight:600;letter-spacing:0.04em;color:{{ accent }};margin-bottom:16px;text-transform:uppercase;">Plans</div>
+        <h2 style="font-size:clamp(30px,4vw,48px);line-height:1.08;letter-spacing:-0.03em;font-weight:600;margin:0 0 16px;color:#f5f5f7;text-wrap:balance;">Three ways to build with us.</h2>
+        <p style="font-size:18px;line-height:1.5;color:#a1a1a8;max-width:600px;margin:0 auto;">From deploying our models to building your own from scratch — even the base model.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch;">
+        <a href="Plans.dc.html" style="text-decoration:none;display:flex;flex-direction:column;background:linear-gradient(170deg,#161617,#0b0b0c);border:1px solid rgba(255,255,255,0.09);border-radius:22px;padding:30px;transition:border-color .2s;" style-hover="border-color:rgba(255,255,255,0.22);">
+          <div style="font-size:12px;font-weight:600;color:#86868b;letter-spacing:0.02em;text-transform:uppercase;margin-bottom:6px;">Tier 1</div>
+          <h3 style="font-size:23px;font-weight:600;letter-spacing:-0.02em;margin:0 0 10px;color:#f5f5f7;">Integrate</h3>
+          <p style="font-size:15px;line-height:1.5;color:#a1a1a8;margin:0 0 18px;">Go live fast on our pre-built models — RAG, MCP integrations and managed hosting.</p>
+          <span style="font-size:14px;font-weight:500;color:{{ accent }};margin-top:auto;">From $3,000/mo →</span>
+        </a>
+        <a href="Plans.dc.html" style="text-decoration:none;display:flex;flex-direction:column;background:linear-gradient(170deg,#15233a,#0a0e16);border:1px solid {{ accent }};border-radius:22px;padding:30px;box-shadow:0 0 50px rgba(41,151,255,0.15);transition:transform .2s;" style-hover="transform:translateY(-2px);">
+          <div style="font-size:12px;font-weight:600;color:{{ accent }};letter-spacing:0.02em;text-transform:uppercase;margin-bottom:6px;">Tier 2 · Most popular</div>
+          <h3 style="font-size:23px;font-weight:600;letter-spacing:-0.02em;margin:0 0 10px;color:#f5f5f7;">Customize</h3>
+          <p style="font-size:15px;line-height:1.5;color:#c7d4e6;margin:0 0 18px;">Your own fine-tuned model fleet on a golden dataset, benchmarked and ops-managed.</p>
+          <span style="font-size:14px;font-weight:500;color:{{ accent }};margin-top:auto;">From $12,000/mo →</span>
+        </a>
+        <a href="Plans.dc.html" style="text-decoration:none;display:flex;flex-direction:column;background:linear-gradient(170deg,#161617,#0b0b0c);border:1px solid rgba(255,255,255,0.09);border-radius:22px;padding:30px;transition:border-color .2s;" style-hover="border-color:rgba(255,255,255,0.22);">
+          <div style="font-size:12px;font-weight:600;color:#86868b;letter-spacing:0.02em;text-transform:uppercase;margin-bottom:6px;">Tier 3</div>
+          <h3 style="font-size:23px;font-weight:600;letter-spacing:-0.02em;margin:0 0 10px;color:#f5f5f7;">Foundry</h3>
+          <p style="font-size:15px;line-height:1.5;color:#a1a1a8;margin:0 0 18px;">Built from scratch — even the base model. Bespoke architecture, you own the weights.</p>
+          <span style="font-size:14px;font-weight:500;color:{{ accent }};margin-top:auto;">Custom →</span>
+        </a>
+      </div>
+      <div style="text-align:center;margin-top:36px;">
+        <a href="Plans.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);color:#f5f5f7;padding:13px 26px;border-radius:980px;font-size:16px;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,0.14);transition:background .2s;" style-hover="background:rgba(255,255,255,0.12);">Compare all plans →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TRUST / STATS ===================== -->
+  <section data-reveal="" style="opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);padding:110px 28px;">
+    <div style="max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <div style="text-align:center;padding:44px 24px;border:1px solid rgba(255,255,255,0.09);border-radius:20px;background:rgba(20,20,22,0.4);">
+        <div style="font-size:clamp(40px,5vw,58px);font-weight:600;letter-spacing:-0.03em;color:#f5f5f7;margin-bottom:8px;">99.9%</div>
+        <div style="font-size:15px;color:#86868b;">Uptime SLA on hosted models</div>
+      </div>
+      <div style="text-align:center;padding:44px 24px;border:1px solid rgba(255,255,255,0.09);border-radius:20px;background:rgba(20,20,22,0.4);">
+        <div style="font-size:clamp(40px,5vw,58px);font-weight:600;letter-spacing:-0.03em;color:#f5f5f7;margin-bottom:8px;">Always</div>
+        <div style="font-size:15px;color:#86868b;">Continuous training, never stale</div>
+      </div>
+      <div style="text-align:center;padding:44px 24px;border:1px solid rgba(255,255,255,0.09);border-radius:20px;background:rgba(20,20,22,0.4);">
+        <div style="font-size:clamp(40px,5vw,58px);font-weight:600;letter-spacing:-0.03em;color:#f5f5f7;margin-bottom:8px;">Yours</div>
+        <div style="font-size:15px;color:#86868b;">Your data. Your weights. Your model.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section id="cta" style="position:relative;padding:130px 28px;text-align:center;overflow:hidden;border-top:1px solid rgba(255,255,255,0.06);">
+    <div style="position:absolute;top:50%;left:50%;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle, {{ accent }}, transparent 62%);filter:blur(70px);opacity:.4;transform:translate(-50%,-50%);pointer-events:none;"></div>
+    <div style="position:relative;max-width:760px;margin:0 auto;">
+      <h2 style="font-size:clamp(38px,5.2vw,68px);line-height:1.05;letter-spacing:-0.035em;font-weight:600;margin:0 0 22px;color:#f5f5f7;text-wrap:balance;">Let's build your model.</h2>
+      <p style="font-size:clamp(18px,2.2vw,21px);line-height:1.5;color:#a1a1a8;margin:0 auto 38px;max-width:540px;">Tell us what your product needs to do. We'll architect the dataset, the models and the ops to make it real.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <a href="mailto:hello@markaige.com" style="display:inline-flex;align-items:center;gap:8px;background:#f5f5f7;color:#000;padding:16px 32px;border-radius:980px;font-size:18px;font-weight:500;text-decoration:none;letter-spacing:-0.01em;transition:transform .2s,background .2s;" style-hover="background:#fff;transform:translateY(-1px);">Start a build →</a>
+        <a href="Plans.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);color:#f5f5f7;padding:16px 32px;border-radius:980px;font-size:18px;font-weight:500;text-decoration:none;letter-spacing:-0.01em;border:1px solid rgba(255,255,255,0.14);transition:background .2s;" style-hover="background:rgba(255,255,255,0.12);">View plans</a>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" hint-size="100%,260px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Blue&quot;,&quot;options&quot;:[&quot;Blue&quot;,&quot;Violet&quot;,&quot;Green&quot;,&quot;Orange&quot;,&quot;Mono&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;glowAnimation&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  root = React.createRef();
+
+  renderVals() {
+    const palette = { Blue:'#2997ff', Violet:'#7c5cff', Green:'#30d158', Orange:'#ff7a45', Mono:'#e8e8ed' };
+    const accent = palette[this.props.accent] || '#2997ff';
+    const showGrid = this.props.showGrid ?? true;
+    const glowOn = this.props.glowAnimation ?? true;
+    return {
+      root: this.root,
+      accent,
+      gridDisplay: showGrid ? 'block' : 'none',
+      glowAnim: glowOn ? 'mk-glow 9s ease-in-out infinite' : 'none',
+    };
+  }
+
+  componentDidMount() {
+    const el = this.root.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'none';
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+    el.querySelectorAll('[data-reveal]').forEach((n) => io.observe(n));
+  }
+}
+</script>
+</body>
+</html>
