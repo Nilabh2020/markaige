@@ -29,10 +29,14 @@
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     a { color: inherit; }
     button, input { font: inherit; }
     ::selection { background: rgba(41,151,255,0.32); }
+    ::-webkit-scrollbar { width: 0; height: 0; }
+    *:focus-visible { outline: 2px solid #2997ff; outline-offset: 2px; }
+    img { image-rendering: -webkit-optimize-contrast; }
 
     .shell {
       min-height: 100vh;
@@ -546,6 +550,15 @@
         grid-template-columns: 1fr;
       }
     }
+    @media (max-width: 480px) {
+      .nav-inner,
+      .hero-inner,
+      .main-grid { padding-left: 16px; padding-right: 16px; }
+      .hero { padding: 60px 0 40px; }
+      .section { padding: 40px 0; }
+      .pricing-cards { grid-template-columns: 1fr; }
+      .slider-group { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -561,6 +574,7 @@
           <a href="#radar">Model Radar</a>
           <a href="#summary">Live Spec</a>
         </div>
+        <a href="Markaige.dc.html" style="font-size:13px;color:#d2d2d7;text-decoration:none;letter-spacing:-0.01em;">Home</a>
         <a class="nav-cta" href="mailto:hello@markaige.com">Talk to us</a>
       </div>
     </nav>
